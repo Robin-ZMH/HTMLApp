@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>智能家居系统</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/mui.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-badge-purple">
+			<h1 id="title" class="mui-title">智能家居系统</h1>
+		</header>
+		<div class="mui-content public-padding">
+			<ul class="mui-table-view ">
+				<li class="mui-table-view-cell mui-media">
+					<a href="空调.html" >
+						<img class="mui-media-object mui-pull-left" src="img/空调.jpg">
+						<div class="mui-media-body">
+							空调
+						<p class='mui-ellipsis' id="openorclose1">状态:开</p>																	
+						</div>
+					</a>
+			</ul>
+			<ul class="mui-table-view ">
+				<li class="mui-table-view-cell mui-media">
+					<a href="除湿器.html" >
+						<img class="mui-media-object mui-pull-left" src="img/除湿器.jpg">
+						<div class="mui-media-body">
+							除湿器
+							<p class='mui-ellipsis'id="openorclose2">状态:关</p>
+						</div>
+					</a>
+			</ul>
+			<ul class="mui-table-view ">
+				<li class="mui-table-view-cell mui-media">
+					<a href="加湿器.html" >
+						<img class="mui-media-object mui-pull-left" src="img/加湿器.jpg">
+						<div class="mui-media-body">
+							加湿器
+							<p class='mui-ellipsis'id="openorclose3">状态:关</p>
+						</div>
+					</a>
+			</ul>			
+			<ul class="mui-table-view public-size">
+				<li class="mui-table-view-cell mui-media"id="name1">
+						<img class="mui-media-object mui-pull-left" src="img/温度.jpg">
+						<div class="mui-media-body">
+							温度
+							<p class='mui-ellipsis'id="rate1">25摄氏度</p>
+							
+						</div>
+					</a>
+			</ul>			
+			<ul class="mui-table-view public-size">
+				<li class="mui-table-view-cell mui-media"id="name2">					
+						<img class="mui-media-object mui-pull-left" src="img/湿度.jpg">
+						<div class="mui-media-body">
+							湿度
+							<p class='mui-ellipsis'id="rate2">50%</p>
+							
+						</div>
+					</a>
+			</ul>			
+			<ul class="mui-table-view public-size">
+				<li class="mui-table-view-cell mui-media"id="name3">					
+						<img class="mui-media-object mui-pull-left" src="img/PM2.5.jpg">
+						<div class="mui-media-body">
+							PM2.5
+							<p class='mui-ellipsis'id="rate3">56μg/m³</p>
+							
+						</div>
+					</a>
+			</ul>
+			<ul class="mui-table-view public-size">
+				<li class="mui-table-view-cell mui-media"id="name4">					
+						<img class="mui-media-object mui-pull-left" src="img/液位.jpg">
+						<div class="mui-media-body">
+							液位
+							<p class='mui-ellipsis'id="rate4">0cm</p>
+							
+						</div>
+					</a>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8"> 
+			mui.init();	
+			var x=26;
+			var y=50;
+			var z=55;
+			var respnoseEl = document.getElementById("rate1");
+			var respnoseE2 = document.getElementById("rate2");
+			var respnoseE3 = document.getElementById("rate3");
+			//成功响应的回调函数
+			var success1 = function(response) {
+				var dataType = 'json';
+				if (dataType === 'json') {
+				//response = JSON.stringify(response);
+				} else if (dataType === 'xml') {
+					response = new XMLSerializer().serializeToString(response).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+				}		
+				//response.substring(0, 2);		
+				//localStorage.setItem("x",(response).temp);
+				//respnoseEl.innerHTML = response;
+				localStorage.setItem("sensorid",(response).sensorid);
+				localStorage.setItem("value",(response).value);
+				var i=localStorage.getItem("sensorid");
+				var j=localStorage.getItem("value");
+				var k=j.substring(3, 5);
+				//1301 1000
+				if(i=="1000"){
+					//localStorage.setItem("x",(response).temp);
+					localStorage.setItem("x",k);
+					respnoseEl.innerHTML = localStorage.getItem("x")+"摄氏度";
+					//respnoseEl.innerHTML = response;
+				}
+				//respnoseEl.innerHTML = localStorage.getItem("x")+"摄氏度";
+			};
+			var success2 = function(response) {
+				var dataType = 'json';
+				if (dataType === 'json') {
+				//response = JSON.stringify(response);
+				} else if (dataType === 'xml') {
+					response = new XMLSerializer().serializeToString(response).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+				}		
+				//response.substring(0, 2);		
+				//localStorage.setItem("x",(response).temp);
+				localStorage.setItem("sensorid",(response).sensorid);
+				localStorage.setItem("value",(response).value);
+				var i=localStorage.getItem("sensorid");
+				var j=localStorage.getItem("value");
+				var k=j.substring(0, 2);
+				//1301 1000
+				if(i=="1000"){
+					//localStorage.setItem("x",(response).temp);
+					localStorage.setItem("y",k);
+					respnoseE2.innerHTML = localStorage.getItem("y")+"%";					
+				}
+				//respnoseEl.innerHTML = localStorage.getItem("x")+"摄氏度";
+			};		
+			var success3 = function(response) {
+				var dataType = 'json';
+				if (dataType === 'json') {
+				//response = JSON.stringify(response);
+				} else if (dataType === 'xml') {
+					response = new XMLSerializer().serializeToString(response).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+				}		
+				//response.substring(0, 2);		
+				//localStorage.setItem("x",(response).temp);
+				localStorage.setItem("sensorid",(response).sensorid);
+				localStorage.setItem("value",(response).value);
+				var i=localStorage.getItem("sensorid");
+				var j=localStorage.getItem("value");
+				var k=j.substring(0, 5);
+				//1301 1000
+				if(i=="1301"){
+					//localStorage.setItem("x",(response).temp);
+					localStorage.setItem("z",k);
+					respnoseE3.innerHTML = localStorage.getItem("z")+"μg/m³";
+				}
+				//respnoseEl.innerHTML = localStorage.getItem("x")+"摄氏度";
+			};		
+			var success4 = function(response) {
+				var dataType = 'json';
+				if (dataType === 'json') {
+				//response = JSON.stringify(response);
+				} else if (dataType === 'xml') {
+					response = new XMLSerializer().serializeToString(response).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+				}		
+				//response.substring(0, 2);		
+				//localStorage.setItem("x",(response).temp);
+				//respnoseEl.innerHTML = response;
+				localStorage.setItem("sensorid",(response).sensorid);
+				localStorage.setItem("value",(response).value);
+				var i=localStorage.getItem("sensorid");
+				var j=localStorage.getItem("value");
+				var k=j.substring(0, 3);
+				//1301 1000
+				if(i=="1302"){
+					//localStorage.setItem("x",(response).temp);
+					localStorage.setItem("w",k);
+					respnoseE4.innerHTML = localStorage.getItem("w")+"cm";
+					//respnoseEl.innerHTML = response;
+				}
+				//respnoseEl.innerHTML = localStorage.getItem("x")+"摄氏度";
+			};		
+					
+			var ajax1 = function() {
+				//利用RunJS的Echo Ajax功能测试
+				var url = 'http://192.168.43.163:8080/ssm1/iothttp.action';
+				//var url = 'http://192.168.43.163:8080/ssm1/iothttp.action'
+				//请求方式，默认为Get；
+				var type = 'get';
+				//预期服务器范围的数据类型
+				var dataType = 'json';
+				//发送数据
+				var data = {
+					"sensorid":"1000",
+					"temp":"20,505821"
+				};
+				//url = url + (dataType === 'html' ? 'text' : dataType);
+				//respnoseEl.innerHTML = '正在请求中...';
+				if (type === 'get') {
+					if (dataType === 'json') {
+						mui.getJSON(url, data, success1);
+					} else {
+						mui.get(url, data, success1, dataType);
+					}
+				} else if (type === 'post') {
+					mui.post(url, data, success1, dataType);
+				}
+			};
+			var ajax2 = function() {
+				//利用RunJS的Echo Ajax功能测试
+				var url = 'http://192.168.43.163:8080/ssm1/iothttp.action';
+				//var url = 'http://192.168.43.163:8080/ssm1/iothttp.action'
+				//请求方式，默认为Get；
+				var type = 'get';
+				//预期服务器范围的数据类型
+				var dataType = 'json';
+				//发送数据
+				var data = {
+					//"sensorid":"1000",
+					//"temp":"18,505821"
+				};
+				//url = url + (dataType === 'html' ? 'text' : dataType);
+				//respnoseEl.innerHTML = '正在请求中...';
+				if (type === 'get') {
+					if (dataType === 'json') {
+						mui.getJSON(url, data, success2);
+					} else {
+						mui.get(url, data, success2, dataType);
+					}
+				} else if (type === 'post') {
+					mui.post(url, data, success2, dataType);
+				}
+			};
+			
+			
+			var ajax3= function() {
+				//利用RunJS的Echo Ajax功能测试
+				var url = 'http://192.168.43.163:8080/ssm1/iothttp.action';
+				//var url = 'http://192.168.43.163:8080/ssm1/iothttp.action'
+				//请求方式，默认为Get；
+				var type = 'get';
+				//预期服务器范围的数据类型
+				var dataType = 'json';
+				//发送数据
+				var data = {
+					//"sensorid":"1301",
+					//"temp":"15abac"
+				};
+				//url = url + (dataType === 'html' ? 'text' : dataType);
+				//respnoseEl.innerHTML = '正在请求中...';
+				if (type === 'get') {
+					if (dataType === 'json') {
+						mui.getJSON(url, data, success3);
+					} else {
+						mui.get(url, data, success3, dataType);
+					}
+				} else if (type === 'post') {
+					mui.post(url, data, success3, dataType);
+				}
+			};
+			var ajax4 = function() {
+				//利用RunJS的Echo Ajax功能测试
+				var url = 'http://192.168.43.163:8080/ssm1/iothttp.action';
+				//var url = 'http://192.168.43.163:8080/ssm1/iothttp.action'
+				//请求方式，默认为Get；
+				var type = 'get';
+				//预期服务器范围的数据类型
+				var dataType = 'json';
+				//发送数据
+				var data = {
+					"sensorid":"1000",
+					"temp":"20,505821"
+				};
+				//url = url + (dataType === 'html' ? 'text' : dataType);
+				//respnoseEl.innerHTML = '正在请求中...';
+				if (type === 'get') {
+					if (dataType === 'json') {
+						mui.getJSON(url, data, success4);
+					} else {
+						mui.get(url, data, success4, dataType);
+					}
+				} else if (type === 'post') {
+					mui.post(url, data, success4, dataType);
+				}
+			};
+			
+			
+			document.getElementById("name1").addEventListener("click",function(){
+				//http://192.168.43.163:8080/ssm1/iotquery.action
+				//https://service.dcloud.net.cn/ajax/echo/
+				ajax1();
+				console.log("你刷新了温度");	
+				//localStorage.setItem("x",x);
+				document.getElementById("rate1").innerHTML=localStorage.getItem("x")+"摄氏度";
+			})
+			document.getElementById("name2").addEventListener("click",function(){
+				ajax2();
+				console.log("你刷新了湿度");
+				//localStorage.setItem("y",y);
+				document.getElementById("rate2").innerHTML=localStorage.getItem("y")+"%";
+			})
+			document.getElementById("name3").addEventListener("click",function(){
+				ajax3();
+				console.log("你刷新了PM2.5");
+				//localStorage.setItem("z",z);
+				document.getElementById("rate3").innerHTML=localStorage.getItem("z")+"μg/m³";
+			})
+			document.getElementById("name4").addEventListener("click",function(){
+				ajax4();
+				console.log("你刷新了液位");
+				//localStorage.setItem("z",z);
+				document.getElementById("rate4").innerHTML=localStorage.getItem("w")+"cm";
+				var q=localStorage.getItem("w");
+				if(q!="0.0"){
+					mui.alert('你家要被水泡了','赶紧回来!','好滴')
+				}
+					
+				
+			})
+			document.getElementById("openorclose1").innerHTML="状态:"+localStorage.getItem("airname1");
+			document.getElementById("openorclose2").innerHTML="状态:"+localStorage.getItem("airname2");
+			document.getElementById("openorclose3").innerHTML="状态:"+localStorage.getItem("airname3");
+			document.getElementById("rate1").innerHTML=localStorage.getItem("x")+"摄氏度";
+			document.getElementById("rate2").innerHTML=localStorage.getItem("y")+"%";
+			document.getElementById("rate3").innerHTML=localStorage.getItem("z")+"μg/m³";
+			document.getElementById("rate4").innerHTML=localStorage.getItem("w")+"cm";
+		</script>
+	</body>
+
+</html>

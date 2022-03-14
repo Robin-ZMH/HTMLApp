@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>加湿器</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/mui.css">
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
+			<h1 class="mui-title ">加湿器</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					加湿器开关
+					<div class="mui-switch mui-active"id="mySwitch">
+					<div class="mui-switch-handle"></div>
+					</div>
+				</li>				
+			</ul>		
+		</div>			
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script>
+			mui.init({
+				swipeBack:true//启用右滑关闭功能				
+			});		
+			var airname1="开";		
+			var airname2="关";
+			var	isSwitchon1=true;
+			var	isSwitchon2=false;
+			
+			document.getElementById("mySwitch").addEventListener("toggle",function(event){
+			  if(event.detail.isActive){
+			    console.log("你启动了开关");
+			    localStorage.setItem("airname3",airname1);
+			    localStorage.setItem("isSwitchon3",isSwitchon1);
+				mui.get("http://192.168.43.163:8080/ssm1/iotinsert.action",{number:"3"},function(data){//获得服务器响应
+					console.log("你访问了网络");
+					console.log(JSON.stringify(data));
+				},'json'
+				);	
+			  }else{
+			    console.log("你关闭了开关"); 
+			    localStorage.setItem("airname3",airname2);
+			    localStorage.setItem("isSwitchon3",isSwitchon2);
+				mui.get("http://192.168.43.163:8080/ssm1/iotinsert.action",{number:"4"},function(data){//获得服务器响应
+					console.log("你访问了网络");
+					console.log(JSON.stringify(data));
+				},'json'
+				);		
+			  }
+			})		
+			var abc=localStorage.getItem("isSwitchon3")
+			if(abc=="true"){			
+				document.getElementById("mySwitch").classList.add('mui-active');
+			}else{				
+				document.getElementById("mySwitch").classList.remove('mui-active'); 
+			}
+	</script>
+</html>
